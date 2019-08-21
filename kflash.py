@@ -1236,6 +1236,8 @@ class KFlash:
 
         while 1:
             self.checkKillExit()
+            if not self.loader._port.isOpen():
+                self.loader._port.open()
             try:
                 retry_count = retry_count + 1
                 if retry_count > 15:
@@ -1284,6 +1286,8 @@ class KFlash:
                         KFlash.log(INFO_MSG,"Automatically detected dan/bit/trainer",BASH_TIPS['DEFAULT'])
                         break
                     except TimeoutError:
+                        if not self.loader._port.isOpen():
+                            self.loader._port.open()
                         pass
                     try:
                         KFlash.log('_', end='')
@@ -1294,6 +1298,8 @@ class KFlash:
                         KFlash.log(INFO_MSG,"Automatically detected goE/kd233",BASH_TIPS['DEFAULT'])
                         break
                     except TimeoutError:
+                        if not self.loader._port.isOpen():
+                            self.loader._port.open()
                         pass
                     try:
                         KFlash.log('.', end='')
@@ -1304,6 +1310,8 @@ class KFlash:
                         KFlash.log(INFO_MSG,"Automatically detected goD",BASH_TIPS['DEFAULT'])
                         break
                     except TimeoutError:
+                        if not self.loader._port.isOpen():
+                            self.loader._port.open()
                         pass
                     try:
                         # Magic, just repeat, don't remove, it may unstable, don't know why.
@@ -1315,6 +1323,8 @@ class KFlash:
                         KFlash.log(INFO_MSG,"Automatically detected goE/kd233",BASH_TIPS['DEFAULT'])
                         break
                     except TimeoutError:
+                        if not self.loader._port.isOpen():
+                            self.loader._port.open()
                         pass
             except Exception as e:
                 KFlash.log()
