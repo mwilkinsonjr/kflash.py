@@ -1123,7 +1123,10 @@ class KFlash:
                 write_len = 0
                 for n, chunk in enumerate(data_chunks):
                     self.checkKillExit()
-                    chunk = chunk.ljust(ISP_FLASH_SECTOR_SIZE if len(chunk)==ISP_FLASH_SECTOR_SIZE else ISP_FLASH_DATA_FRAME_SIZE, b'\x00')  # align by size of dataframe
+                    # 4K align
+                    aligned_chunk = len(chunk)
+                    aligned_chunk = (ISP_FLASH_SECTOR_SIZE - (aligned_chunk % ISP_FLASH_SECTOR_SIZE))%ISP_FLASH_SECTOR_SIZE + aligned_chunk
+                    chunk = chunk.ljust(aligned_chunk, b'\x00')  # align by size of dataframe
 
                     # Download a dataframe
                     #KFlash.log('[INFO]', 'Write firmware data piece')
