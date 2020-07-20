@@ -33,7 +33,7 @@ class KFlash:
         else:
             print(*args, **kwargs)
 
-    def process(self, terminal=True, dev="", baudrate=1500000, board=None, sram = False, file="", callback=None, noansi=False, terminal_auto_size=False, terminal_size=(50, 1), slow_mode = False):
+    def process(self, terminal=True, dev="", baudrate=1500000, board=None, sram = False, file="", callback=None, noansi=False, terminal_auto_size=False, terminal_size=(50, 1), slow_mode = False, addr=None, length=None):
         self.killProcess = False
         BASH_TIPS = dict(NORMAL='\033[0m',BOLD='\033[1m',DIM='\033[2m',UNDERLINE='\033[4m',
                             DEFAULT='\033[0m', RED='\033[31m', YELLOW='\033[33m', GREEN='\033[32m',
@@ -1203,6 +1203,8 @@ class KFlash:
             args.Board = board
             args.firmware = file
             args.Slow = slow_mode
+            args.addr = addr
+            args.length = length
 
         if args.Board == "maixduino" or args.Board == "bit_mic":
             args.Board = "goE"
@@ -1483,7 +1485,7 @@ class KFlash:
                     else:
                         length = int(args.length)
                     KFlash.log(INFO_MSG,"erase '0x{:x}' - '0x{:x}' ({}B, {:.02}KiB, {:.02}MiB)".format(addr, addr+length, length, length/1024.0, length/1024.0/1024.0))
-                if ((addr % 4096) != 0) or ((length % 4096) != 0) or addr < 0 or addr > 0x01000000 or length < 0 or ( length > 0x01000000 and length != 0xFFFFFFEE):
+                if ((addr % 4096) != 0) or ( length != 0xFFFFFFEE and (length % 4096) != 0) or addr < 0 or addr > 0x01000000 or length < 0 or ( length > 0x01000000 and length != 0xFFFFFFEE):
                     err = (ERROR_MSG,"erase flash addr or length error, addr should >= 0x00000000, and length should >= 4096 or 'all'")
                     err = tuple2str(err)
                     raise_exception( Exception(err) )
