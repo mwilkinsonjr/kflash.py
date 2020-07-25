@@ -1112,11 +1112,11 @@ class KFlash:
 
                     firmware_with_header = data + sha256_hash
 
-                    total_len = len(firmware_with_header)
+                    total_len = (len(firmware_with_header) + ISP_FLASH_SECTOR_SIZE - 1)//ISP_FLASH_SECTOR_SIZE * ISP_FLASH_SECTOR_SIZE
                     # Slice download firmware
                     data_chunks = chunks(firmware_with_header, ISP_FLASH_DATA_FRAME_SIZE)  # 4kiB for a sector, 16kiB for dataframe
                 else:
-                    total_len = len(firmware_bin)
+                    total_len = (len(firmware_bin) + ISP_FLASH_SECTOR_SIZE - 1)//ISP_FLASH_SECTOR_SIZE * ISP_FLASH_SECTOR_SIZE
                     data_chunks = chunks(firmware_bin, ISP_FLASH_DATA_FRAME_SIZE, address = address_offset)
 
                 time_start = time.time()
