@@ -442,11 +442,10 @@ class KFlash:
                 reason_enum = FlashModeResponse.ErrorCode(reason)
                 if (not text) or (text.strip() == ""):
                     if reason_enum == FlashModeResponse.ErrorCode.ISP_RET_OK:
-                        text = "ok"
+                        text = None
                     elif reason_enum == FlashModeResponse.ErrorCode.ISP_RET_BAD_DATA_LEN:
                         text = "bad data len"
                     elif reason_enum == FlashModeResponse.ErrorCode.ISP_RET_BAD_DATA_CHECKSUM:
-                        print("aaa")
                         text = "bad data checksum"
                     elif reason_enum == FlashModeResponse.ErrorCode.ISP_RET_BAD_INITIALIZATION:
                         text = "bad initialization"
