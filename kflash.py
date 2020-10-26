@@ -1428,13 +1428,16 @@ class KFlash:
 
         # Boot the code from SRAM
         self.loader.boot()
-
         if args.sram:
             # Dangerous, here are dinosaur infested!!!!!
             # Don't touch this code unless you know what you are doing
             self.loader._port.baudrate = args.baudrate
             KFlash.log(INFO_MSG,"Boot user code from SRAM", BASH_TIPS['DEFAULT'])
             if(args.terminal == True):
+                try:
+                    self.loader._port.close()
+                except Exception:
+                    pass
                 open_terminal(False)
             msg = "Burn SRAM OK"
             raise_exception( Exception(msg) )
