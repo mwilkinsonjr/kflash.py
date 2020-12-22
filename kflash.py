@@ -469,9 +469,13 @@ class KFlash:
                 for i in range(count):
                     if i < count_4k_blocks:
                         yield l[ISP_FLASH_SECTOR_SIZE*i:ISP_FLASH_SECTOR_SIZE*(i+1)]
+                        if ISP_FLASH_SECTOR_SIZE*(i+1) > len(l):
+                            break
                     else:
                         start = start_pos+(i-count_4k_blocks)*n
                         yield l[start:start+n]
+                        if start+n > len(l):
+                            break
             else:
                 for i in range(0, len(l), n):
                     yield l[i:i + n]
