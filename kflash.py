@@ -1469,6 +1469,10 @@ class KFlash:
                 try:
                     with zipfile.ZipFile(args.firmware) as zf:
                         zf.extractall(tmpdir)
+                        if not os.path.exists(os.path.join(tmpdir, "flash-list.json")):
+                            err = (ERROR_MSG,'Can not find flash-list.json in kfpkg root dir',BASH_TIPS['DEFAULT'])
+                            err = tuple2str(err)
+                            raise_exception( Exception(err) )
                 except zipfile.BadZipFile:
                     err = (ERROR_MSG,'Unable to Decompress the kfpkg, your file might be corrupted.',BASH_TIPS['DEFAULT'])
                     err = tuple2str(err)
